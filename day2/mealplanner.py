@@ -9,6 +9,24 @@ gemini_model = genai.GenerativeModel("gemini-2.0-flash")
 st.set_page_config(page_title="Indian Kids Recipes", layout="wide")
 st.title("🍱 Dabba Delights: Little Bites Big Smiles")
 
+
+# ---------- GEMINI AI GENERATOR ----------
+st.markdown("## 🤖 Generate a New Recipe Using Gemini")
+
+user_prompt = st.text_input("Enter your recipe idea (e.g., Quick millet lunch for 10-year-old):")
+
+if st.button("Generate Recipe with Gemini"):
+    if not user_prompt:
+        st.warning("Please enter a recipe prompt.")
+    else:
+        with st.spinner("Gemini is generating..."):
+            try:
+                gemini_response = gemini_model.generate_content(user_prompt)
+                st.success("Here's your Gemini recipe:")
+                st.markdown(gemini_response.text)
+            except Exception as e:
+                st.error(f"❌ Error from Gemini: {e}")
+
 # ---------- REAL RECIPES ----------
 recipes = [
     {
@@ -196,22 +214,6 @@ st.write(f"**Estimated Cost**: ₹{recipe['cost']}")
 st.write(f"**Meal Type**: {recipe['meal_type']} | Culture: {recipe['cultural_tag']}")
 st.markdown(f"**👩‍🍳 Instructions**: {recipe['instructions']}")
 
-# ---------- GEMINI AI GENERATOR ----------
-st.markdown("## 🤖 Generate a New Recipe Using Gemini")
-
-user_prompt = st.text_input("Enter your recipe idea (e.g., Quick millet lunch for 10-year-old):")
-
-if st.button("Generate Recipe with Gemini"):
-    if not user_prompt:
-        st.warning("Please enter a recipe prompt.")
-    else:
-        with st.spinner("Gemini is generating..."):
-            try:
-                gemini_response = gemini_model.generate_content(user_prompt)
-                st.success("Here's your Gemini recipe:")
-                st.markdown(gemini_response.text)
-            except Exception as e:
-                st.error(f"❌ Error from Gemini: {e}")
 
 st.markdown("---")
 st.markdown("✨ Try [https://hix.ai/chat](https://hix.ai/chat) — your AI kitchen companion!")

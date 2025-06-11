@@ -1,0 +1,146 @@
+{
+  "name": "weatherreport",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1240,
+        -260
+      ],
+      "id": "47ebf59b-fad6-42a3-8241-0eba0704df8f",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1240,
+        -40
+      ],
+      "id": "f31cd6c5-d235-4b41-9be0-9450def2e05a",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const data = item.json;\n  const hourly = data.hourly;\n\n  // Extract hourly values\n  const temps = hourly.temperature_2m;\n  const rain = hourly.rain;\n  const snow = hourly.snowfall;\n  const wind = hourly.wind_speed_10m;\n  const soil0_1 = hourly.soil_moisture_0_to_1cm;\n  const soil1_3 = hourly.soil_moisture_1_to_3cm;\n  const soil3_9 = hourly.soil_moisture_3_to_9cm;\n\n  // Calculate stats\n  const tempHigh = Math.max(...temps).toFixed(1);\n  const tempLow = Math.min(...temps).toFixed(1);\n  const totalRain = rain.reduce((sum, val) => sum + val, 0).toFixed(2);\n  const totalSnow = snow.reduce((sum, val) => sum + val, 0).toFixed(2);\n  const windMax = Math.max(...wind).toFixed(1);\n  const windMin = Math.min(...wind).toFixed(1);\n\n  const avg = arr => (arr.reduce((sum, v) => sum + v, 0) / arr.length).toFixed(3);\n  const soil_0_1_avg = avg(soil0_1);\n  const soil_1_3_avg = avg(soil1_3);\n  const soil_3_9_avg = avg(soil3_9);\n\n  // Step-by-step report format\n  const message = \n`📍 Location: Thiruvarur\n\n🌡️ Temperature:\n• High today: ${tempHigh}°F\n• Low today: ${tempLow}°F\n\n🌧️ Precipitation:\n• Rainfall: ${totalRain} mm\n• Snowfall: ${totalSnow} cm\n\n💨 Wind:\n• Speed ranges from ${windMin} to ${windMax} km/h\n\n🌱 Soil Moisture (average):\n• 0–1 cm: ${soil_0_1_avg} m³/m³\n• 1–3 cm: ${soil_1_3_avg} m³/m³\n• 3–9 cm: ${soil_3_9_avg} m³/m³\n\n🌅 Sunrise & sunset data not available in this response.`;\n\n  return {\n    json: {\n      message\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -740,
+        -160
+      ],
+      "id": "f0f2bd8a-cbd0-4c15-aabe-8ffb59372a48",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "url": "https://api.open-meteo.com/v1/forecast?latitude=22&longitude=79&hourly=temperature_2m,rain,snowfall,wind_speed_10m,wind_speed_80m,soil_moisture_0_to_1cm,soil_moisture_1_to_3cm,soil_moisture_3_to_9cm&forecast_days=3&temperature_unit=fahrenheit",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -960,
+        -160
+      ],
+      "id": "6bb665cd-96e9-4b3b-8a67-8636f055a871",
+      "name": "get weather"
+    },
+    {
+      "parameters": {
+        "sendTo": "hajachem@gmail.com",
+        "subject": "Weather Report for Today",
+        "emailType": "text",
+        "message": "={{ $json.message }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -520,
+        -160
+      ],
+      "id": "66772196-8b26-4559-9bcd-7a2d50e1ae5d",
+      "name": "Gmail",
+      "webhookId": "9041d76b-1880-40bb-83c4-b3c0bece947b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qu7I2Qp7xNc6bpcq",
+          "name": "Gmail account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "get weather",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "get weather",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get weather": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f7c4237a-2d67-4899-9ae8-c0013db9c636",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "de3889b5f600d55fed291239e232658e3caebcb04b97cb93827db0cccd5495d0"
+  },
+  "id": "u3EBZ2DFX5D27NH3",
+  "tags": []
+}

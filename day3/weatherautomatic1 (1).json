@@ -1,0 +1,194 @@
+{
+  "name": "weatherautomatic1",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -1500,
+        -20
+      ],
+      "id": "4c42501c-f503-44e6-9fc8-36ca818b457f",
+      "name": "When chat message received",
+      "webhookId": "0097faf0-b068-43f9-92e1-afb1024b241d"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": ""
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -1180,
+        160
+      ],
+      "id": "3c57821d-1c87-4287-8ee2-a2c94920fe09",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1220,
+        380
+      ],
+      "id": "5fb6f1d1-e9e4-4ca3-a439-77c5b1425557",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YvvPde7njNCHLhKF",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        -1100,
+        380
+      ],
+      "id": "8bc320a1-eb05-4b2b-8680-b747e64fe389",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "url": "https://api.open-meteo.com/v1/forecast?latitude=22&longitude=79&daily=sunrise,sunset&hourly=temperature_2m,rain,snowfall,wind_speed_10m,wind_speed_80m,soil_moisture_0_to_1cm,soil_moisture_1_to_3cm,soil_moisture_3_to_9cm&timezone=GMT&forecast_days=3&temperature_unit=fahrenheit",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1940,
+        20
+      ],
+      "id": "3bcae612-9ea1-4788-830c-c4b66fc2413d",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "sendTo": "husnaece17@gmail.com",
+        "subject": "Weather Report",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -780,
+        160
+      ],
+      "id": "000d0846-a611-4ee7-8cb2-fafd405fc229",
+      "name": "Gmail",
+      "webhookId": "d80c17ba-5504-474d-a319-a6b95c23585d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qu7I2Qp7xNc6bpcq",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Getting Weather information",
+        "url": "=https://api.open-meteo.com/v1/forecast?latitude=22&longitude=79&daily=sunrise,sunset&hourly=temperature_2m,rain,snowfall,wind_speed_10m,wind_speed_80m,soil_moisture_0_to_1cm,soil_moisture_1_to_3cm,soil_moisture_3_to_9cm&timezone=GMT&forecast_days=3&temperature_unit=fahrenheit",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        -960,
+        380
+      ],
+      "id": "147ef9fa-69ea-4be4-8e04-312a6522a240",
+      "name": "HTTP Request"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        []
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e95898c2-cdb8-4ec0-a874-94e057e0a2cc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "de3889b5f600d55fed291239e232658e3caebcb04b97cb93827db0cccd5495d0"
+  },
+  "id": "qZjTjAcomDVqXXwM",
+  "tags": []
+}

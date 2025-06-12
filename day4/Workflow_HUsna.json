@@ -1,0 +1,305 @@
+{
+  "name": "Workflow_HUsna",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Job Application ",
+        "formDescription": "Full stack developer company",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Name",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Position apply for",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Resume",
+              "fieldType": "file",
+              "acceptFileTypes": ".pdf,.doc",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -1240,
+        -240
+      ],
+      "id": "457e3df0-9626-444b-8a29-125740cd5a0e",
+      "name": "On form submission",
+      "webhookId": "f78a31d4-b7e8-4cec-a999-65cc2455e14d"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "Resume",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -1020,
+        -240
+      ],
+      "id": "42bed059-e5c3-43b5-9702-efb51e7287b9",
+      "name": "Extract from File"
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.text }}",
+        "schemaType": "manual",
+        "inputSchema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"name\": { \"type\": \"string\" },\n    \"title\": { \"type\": \"string\" },\n    \"email\": { \"type\": \"string\" },\n    \"website\": { \"type\": \"string\" },\n    \"github\": { \"type\": \"string\" },\n    \"linkedin\": { \"type\": \"string\" },\n    \"city\": { \"type\": \"string\" },\n    \"telephone\": { \"type\": \"string\" },\n    \"birthdate\": { \"type\": \"string\" },\n    \"educational qualification\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"institution\": { \"type\": \"string\" },\n          \"location\": { \"type\": \"string\" },\n          \"degree\": { \"type\": \"string\" },\n          \"duration\": { \"type\": \"string\" },\n          \"gpa\": { \"type\": \"string\" }\n        }\n      }\n    },\n    \"job history\": { \"type\": \"string\" },\n    \"skills\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"languages\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"web_and_mobile\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"cloud\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"azure_services\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n      }\n    }\n  }\n}\n\n",
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value.\nPhone number should not contain '+'."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.1,
+      "position": [
+        -760,
+        -240
+      ],
+      "id": "231cef8d-8556-4eb5-864f-555338f71425",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -660,
+        -20
+      ],
+      "id": "d679014d-1512-4650-b655-ad0776991188",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YvvPde7njNCHLhKF",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Write a concise summary of the following:\n\nEducational qualification: {{ $json.output['educational qualification'] }} \nJob History: {{ $json.output['job history'] }}\nSkills: {{ $json.output.skills }}\n\nUse 100 words or less. Be concise and conversational.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -400,
+        -240
+      ],
+      "id": "01ac2c5c-f11d-4774-ada4-00e0c9b49ef5",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a3e06c2b-18bf-4c8f-842e-1274a34c78a0",
+              "name": "deepa",
+              "value": "Job_Description : We are a web agency seeking a full-stack web developer proficient in Python, and  HTML CSS , monog db. He has experience in GitHub and is apable of working hard",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -40,
+        -240
+      ],
+      "id": "e7581b67-4251-4017-a40f-3bf569483f69",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert HR professional and technical recruiter.\n\nYour task is to assess whether the candidate aligns with the job profile provided. Based on the educational background, work experience, projects, skills, and certifications, give a **score from 1 to 10**, where:\n\n- 1 means \"Not aligned at all\"\n- 10 means \"Perfect match\"\n\nYou must provide:\n1. **Score** (integer from 1 to 10)\n2. **Consideration** – a short explanation justifying the score, including key matches or mismatches between the candidate and job requirements.\n\n### Input:\n**Job Description**: {{ $json.Job_Description }}\n\n**Candidate Profile**: {{ $('AI Agent').item.json.output }}\n\nOnly respond in the following JSON format:\n\n```json\n{\n  \"score\": 8,\n  \"consideration\": \"The candidate has strong experience in full stack development, Azure, and DevOps, which matches the JD well. Some minor gaps in domain-specific experience.\"\n}\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        180,
+        -240
+      ],
+      "id": "58aac7ee-f88b-4ede-b2c3-8b37f68e61f6",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are a professional HR email writer.\n\nBased on our automated resume screening score ({{ $json.output }}), generate a concise and professional email body:\n\n- If the score is **greater than 5**, write a **short congratulatory email** to inform the candidate that their resume has been shortlisted for the first round. Address them by their name (e.g., \"Dear Deep\").\n\n- If the score is **5 or below**, write a **respectful rejection email** informing the candidate that they have not been selected at this time.\n\n**Do not** include the company name, subject line, or sign-off (like 'Best regards').\n\n**Only return the email content body. Keep it neutral, clear, and professional.**\n",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        620,
+        -240
+      ],
+      "id": "4e97f323-7615-4ff6-a3a2-d858e8322486",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('On form submission').item.json.Email }}",
+        "subject": "job ",
+        "emailType": "text",
+        "message": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1060,
+        -240
+      ],
+      "id": "dea1ed53-b274-4c4c-a52b-745b80150555",
+      "name": "Gmail",
+      "webhookId": "43d335c6-0cd5-43cd-9763-ade4661504a2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "yiskg6OP3Jmlc9Y1",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "e2ac259c-4152-4f67-9e11-16dd142349a1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "de3889b5f600d55fed291239e232658e3caebcb04b97cb93827db0cccd5495d0"
+  },
+  "id": "4iQivuE63nmMNss4",
+  "tags": []
+}

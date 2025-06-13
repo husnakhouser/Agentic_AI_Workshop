@@ -1,42 +1,48 @@
 import streamlit as st
+import os
+import warnings
+from dotenv import load_dotenv
+
 from langchain.agents import initialize_agent, Tool
 from langchain.agents.agent_types import AgentType
 from langchain.memory import ConversationBufferMemory
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.utilities import SerpAPIWrapper
-import warnings
 
-# Suppress LangChain deprecation warnings
+# Optional: Suppress LangChain warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-# --- Set API keys directly in code (not secure for production) ---
-GOOGLE_API_KEY = "AIzaSyCX3w_DD7PZD6I0zPsReks8XPkrJrylq1w"
-SERPAPI_API_KEY = "2e4e2c92a24c82edadca5aa1fd068cc049909c3044721bb51997656c2849ae42"
+# Load environment variables from local .env file (optional on Streamlit Cloud)
+load_dotenv()
 
-# --- Validate API keys ---
+# Read keys from Streamlit secrets (for deployment) or fallback to .env
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"] if "GOOGLE_API_KEY" in st.secrets else os.getenv("GOOGLE_API_KEY")
+SERPAPI_API_KEY = st.secrets["SERPAPI_API_KEY"] if "SERPAPI_API_KEY" in st.secrets else os.getenv("SERPAPI_API_KEY")
+
+# Validate API keys
 if not GOOGLE_API_KEY or not SERPAPI_API_KEY:
-    st.error("🚫 API keys missing.")
+    st.error("🚫 API keys missing. Please check your `.env` file or Streamlit secrets.")
     st.stop()
 
-# --- Initialize Gemini LLM ---
-llm = ChatGoogleGenerativeAI(
-    model="gemini-2.0-flash",
-    temperature=0.7,
-    google_api_key=GOOGLE_API_KEY
-)
+# Set environment variables for tools to access
+os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
+os.environ["SERPAPI_API_KEY"] = SERPAPI_API_KEY
 
-# --- Initialize SerpAPI Tool ---
-search = SerpAPIWrapper(serpapi_api_key=SERPAPI_API_KEY)
+# Initialize LLM
+llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.7)
+
+# Set up SerpAPI Search Tool
+search = SerpAPIWrapper()
 search_tool = Tool(
     name="Google Search",
     func=search.run,
     description="Search the internet for recent hackathons and coding competitions"
 )
 
-# --- Initialize Memory ---
+# Set up memory
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
-# --- Initialize Agent ---
+# Initialize LangChain agent
 agent = initialize_agent(
     tools=[search_tool],
     llm=llm,
@@ -45,30 +51,31 @@ agent = initialize_agent(
     verbose=True
 )
 
-# --- Streamlit UI ---
+# Streamlit UI setup
 st.set_page_config(page_title="Hackathon Finder", layout="centered")
 st.title("🔍 Hackathon Finder")
 st.markdown("Ask me to find hackathons or coding competitions using web search + Gemini.")
 
-# --- User Input ---
-user_input = st.text_input("Enter your question (e.g., 'Find AI hackathons in India this month')")
+# User input
+user_input = st.text_input("Enter your query (e.g., 'Find AI hackathons in India this month')")
 
-# --- Run Agent ---
+# Run agent on button click
 if st.button("Search"):
     if not user_input.strip():
-        st.warning("⚠️ Please enter a valid question.")
+        st.warning("⚠️ Please enter a question.")
     else:
-        with st.spinner("🔍 Searching the web..."):
+        with st.spinner("Searching..."):
             try:
-                prompt = f"You are a helpful assistant. {user_input.strip()}"
-                response = agent.run(prompt)
+                result = agent.run(user_input)
                 st.success("✅ Here's what I found:")
-                st.markdown(response)
+                st.markdown(result)
             except Exception as e:
-                st.error(f"❌ Something went wrong: {e}")
+                st.error(f"❌ Error: {e}")
 
-# --- Optional: Display Chat History ---
+# Show conversation history (optional)
 with st.expander("🧠 Chat History"):
     for msg in memory.chat_memory.messages:
-        role = "🧑‍💻 You" if msg.type == "human" else "🤖 Bot"
+        role = "👤 You" if msg.type == "human" else "🤖 Gemini"
         st.markdown(f"**{role}:** {msg.content}")
+
+

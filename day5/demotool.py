@@ -12,7 +12,7 @@ load_dotenv()
 
 # Set environment variables (you can remove these if using only .env)
 os.environ["GOOGLE_API_KEY"] = "AIzaSyDRITZtXU3ZdZIz7XQC_38rijpG4lI3U84"
-os.environ["SERPAPI_API_KEY"] = "1cf48d4c57a64dae23c97fbc19557af0ac1475b3c1a820c9a7d2a94b30c1ab51"
+os.environ["SERPAPI_API_KEY"] = "2e4e2c92a24c82edadca5aa1fd068cc049909c3044721bb51997656c2849ae42"
 
 # Initialize Gemini LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.7)

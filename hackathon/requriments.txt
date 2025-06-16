@@ -1,3 +1,5 @@
 streamlit
 python-docx
 fpdf
+streamlit
+requests

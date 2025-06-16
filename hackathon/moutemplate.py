@@ -1,7 +1,6 @@
-# 📄 streamlit_mou_generator.py
-
 import streamlit as st
 from datetime import date
+import requests
 
 # ------------------ Page Configuration ------------------
 st.set_page_config(
@@ -9,10 +8,13 @@ st.set_page_config(
     layout="centered"
 )
 
+# ------------------ Fixed Webhook URL ------------------
+# Replace this URL with your actual webhook receiver (n8n, Make, Zapier, or test URL)
+WEBHOOK_URL = "https://webhook.site/your-test-id"  # 🔁 Replace with your real URL
+
 # ------------------ Title Section ------------------
 st.title("📄 MoU Template Generator - SNS College of Technology")
-
-st.markdown("Use this tool to quickly generate a customized MoU outline by selecting type and filling in organization details.")
+st.markdown("Fill in the MoU details and send them to an external system via webhook.")
 
 # ------------------ Input: Company Details ------------------
 company_name = st.text_input("Enter Partner Company Name:", value="InnovaTech Pvt. Ltd.")
@@ -30,10 +32,9 @@ mou_types = [
     "IPR & Patent Filing Support",
     "Faculty Development / Guest Lectures"
 ]
-
 selected_mou_type = st.selectbox("Select Type of MoU:", mou_types)
 
-# ------------------ MoU Description Templates ------------------
+# ------------------ MoU Description ------------------
 mou_descriptions = {
     "Academic–Industry Collaboration": "Collaboration for industrial projects, domain-specific mentoring, and applied learning.",
     "Internship & Placement Support": "To provide internships, career guidance, and placement opportunities for students.",
@@ -50,6 +51,8 @@ mou_descriptions = {
 st.markdown("---")
 st.subheader("🖨️ MoU Preview")
 
+description = mou_descriptions[selected_mou_type]
+
 st.markdown(f"""
 ### Memorandum of Understanding (MoU)
 
@@ -59,12 +62,24 @@ st.markdown(f"""
 **Date of Signing:** {signing_date.strftime('%B %d, %Y')}
 
 **Objective:**  
-{mou_descriptions[selected_mou_type]}
-
-_Further sections like Scope, Roles, and Signatures will be dynamically filled in final documents._
+{description}
 """)
 
-# ------------------ Download & Future Features ------------------
-if st.button("✅ Generate Full MoU Draft"):
-    st.success("Template preview generated! Export options (Word/PDF) coming soon.")
+# ------------------ Webhook Submission ------------------
+if st.button("🚀 Submit to Webhook"):
+    data = {
+        "institution": "SNS College of Technology",
+        "partner_company": company_name,
+        "signing_date": signing_date.isoformat(),
+        "mou_type": selected_mou_type,
+        "description": description
+    }
 
+    try:
+        response = requests.post(WEBHOOK_URL, json=data)
+        if response.status_code == 200:
+            st.success("✅ MoU details successfully sent to webhook!")
+        else:
+            st.warning(f"⚠️ Webhook call failed: Status code {response.status_code}")
+    except Exception as e:
+        st.error(f"🚫 Error: {str(e)}")

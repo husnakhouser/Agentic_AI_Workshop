@@ -60,6 +60,7 @@ st.markdown(f"""
 
 **Type of MoU:** {selected_mou_type}  
 **Date of Signing:** {signing_date.strftime('%B %d, %Y')}
+Official Contact Email:** {company_email}
 
 **Objective:**  
 {description}

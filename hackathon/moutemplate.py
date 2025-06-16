@@ -10,7 +10,7 @@ st.set_page_config(
 
 # ------------------ Fixed Webhook URL ------------------
 # Replace this URL with your actual webhook receiver (n8n, Make, Zapier, or test URL)
-WEBHOOK_URL = "https://webhook.site/your-test-id"  # 🔁 Replace with your real URL
+WEBHOOK_URL = "https://husnak.app.n8n.cloud/webhook-test/https://agenticaiworkshop-9x9odmlqcndnpqbpttyemq.streamlit.app/"  # 🔁 Replace with your real URL
 
 # ------------------ Title Section ------------------
 st.title("📄 MoU Template Generator - SNS College of Technology")

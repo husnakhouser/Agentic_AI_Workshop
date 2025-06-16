@@ -9,8 +9,7 @@ st.set_page_config(
 )
 
 # ------------------ Fixed Webhook URL ------------------
-# Replace this URL with your actual webhook receiver (n8n, Make, Zapier, or test URL)
-WEBHOOK_URL = "https://husnak.app.n8n.cloud/webhook-test/https://agenticaiworkshop-9x9odmlqcndnpqbpttyemq.streamlit.app/"  # 🔁 Replace with your real URL
+WEBHOOK_URL = "https://husnak.app.n8n.cloud/webhook-test/https://agenticaiworkshop-9x9odmlqcndnpqbpttyemq.streamlit.app/"  # Replace with your actual webhook URL
 
 # ------------------ Title Section ------------------
 st.title("📄 MoU Template Generator - SNS College of Technology")
@@ -18,6 +17,7 @@ st.markdown("Fill in the MoU details and send them to an external system via web
 
 # ------------------ Input: Company Details ------------------
 company_name = st.text_input("Enter Partner Company Name:", value="InnovaTech Pvt. Ltd.")
+company_email = st.text_input("Enter Official Company Email:", value="contact@innovatech.com")
 signing_date = st.date_input("Select MoU Signing Date:", value=date.today())
 
 # ------------------ Input: MoU Type ------------------
@@ -56,11 +56,10 @@ description = mou_descriptions[selected_mou_type]
 st.markdown(f"""
 ### Memorandum of Understanding (MoU)
 
-**Between SNS College of Technology, Coimbatore and {company_name}**
-
+**Between SNS College of Technology, Coimbatore and {company_name}**  
 **Type of MoU:** {selected_mou_type}  
-**Date of Signing:** {signing_date.strftime('%B %d, %Y')}
-Official Contact Email:** {company_email}
+**Date of Signing:** {signing_date.strftime('%B %d, %Y')}  
+**Official Contact Email:** {company_email}
 
 **Objective:**  
 {description}
@@ -68,19 +67,23 @@ Official Contact Email:** {company_email}
 
 # ------------------ Webhook Submission ------------------
 if st.button("🚀 Submit to Webhook"):
-    data = {
-        "institution": "SNS College of Technology",
-        "partner_company": company_name,
-        "signing_date": signing_date.isoformat(),
-        "mou_type": selected_mou_type,
-        "description": description
-    }
+    if not company_email or "@" not in company_email:
+        st.error("Please enter a valid email address.")
+    else:
+        data = {
+            "institution": "SNS College of Technology",
+            "partner_company": company_name,
+            "email": company_email,
+            "signing_date": signing_date.isoformat(),
+            "mou_type": selected_mou_type,
+            "description": description
+        }
 
-    try:
-        response = requests.post(WEBHOOK_URL, json=data)
-        if response.status_code == 200:
-            st.success("✅ MoU details successfully sent to webhook!")
-        else:
-            st.warning(f"⚠️ Webhook call failed: Status code {response.status_code}")
-    except Exception as e:
-        st.error(f"🚫 Error: {str(e)}")
+        try:
+            response = requests.post(WEBHOOK_URL, json=data)
+            if response.status_code == 200:
+                st.success("✅ MoU details successfully sent to webhook!")
+            else:
+                st.warning(f"⚠️ Webhook call failed: Status code {response.status_code}")
+        except Exception as e:
+            st.error(f"🚫 Error: {str(e)}")

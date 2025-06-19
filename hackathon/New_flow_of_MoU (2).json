@@ -1,0 +1,831 @@
+{
+  "name": "New flow of MoU",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Mou",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "MoU Type",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Academic–Industry Collaboration"
+                  },
+                  {
+                    "option": "International Collaboration"
+                  },
+                  {
+                    "option": "Entrepreneurship & Incubation"
+                  },
+                  {
+                    "option": "Research Collaboration"
+                  },
+                  {
+                    "option": "Hackathon / Innovation Partnership"
+                  },
+                  {
+                    "option": "Internship & Placement Support"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Institution Name",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "SNS College of Engineering"
+                  },
+                  {
+                    "option": "SNS College of Technology"
+                  },
+                  {
+                    "option": "DR.SNSRCAS"
+                  }
+                ]
+              },
+              "multiselect": true
+            },
+            {
+              "fieldLabel": "Industry Name"
+            },
+            {
+              "fieldLabel": "Mou Signing Date",
+              "fieldType": "date"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -3800,
+        -2140
+      ],
+      "id": "cee98676-2825-449e-afa5-f5a9e8fff9d4",
+      "name": "On form submission",
+      "webhookId": "6ef99e3c-f313-40cc-a28e-6175ee0a949a"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -3400,
+        -1740
+      ],
+      "id": "22c17ce5-7f46-461f-9565-dbac406eb03b",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "3wg4c4RXUr8K7PLi",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "return [\n  {\n    json: {\n      date: \"2025-06-27\",\n      keyPoints: {\n        goals: \"Establish a long-term strategic partnership to foster academic excellence, industry relevance, and innovation.\",\n        objectives: [\n          \"Enhance student employability via internships and placements.\",\n          \"Promote collaborative R&D in emerging technologies.\",\n          \"Support entrepreneurship and innovation among students.\",\n          \"Improve faculty expertise through training.\"\n        ],\n        scope: [\n          \"Internships and placements\",\n          \"Research projects\",\n          \"Entrepreneurship support\",\n          \"Skill development & training\",\n          \"Innovation initiatives\",\n          \"International collaborations\",\n          \"IPR support\",\n          \"Faculty development\"\n        ],\n        stakeholders: {\n          snsCollege: {\n            roles: [\n              \"Provide infrastructure\",\n              \"Identify eligible students\",\n              \"Facilitate applications\",\n              \"Monitor student performance\",\n              \"Curriculum alignment\"\n            ],\n            entities: [\n              \"Students\",\n              \"Faculty\",\n              \"Management\",\n              \"Placement Cell\",\n              \"Research and Development Cell\",\n              \"Entrepreneurship Cell\",\n              \"International Relations Office\"\n            ]\n          },\n          oracle: {\n            roles: [\n              \"Provide internships\",\n              \"Conduct recruitment drives\",\n              \"Share industry insights\",\n              \"Provide mentorship\",\n              \"Technical expertise\",\n              \"Judge innovation events\",\n              \"Provide funding (if applicable)\"\n            ],\n            entities: [\n              \"Industry Experts\",\n              \"Mentors\",\n              \"Recruiters\",\n              \"Researchers\",\n              \"Technical Teams\",\n              \"Legal Team\",\n              \"Executive Management\"\n            ]\n          }\n        },\n        initiatives: [\n          \"Structured internship program\",\n          \"Joint research in AI, ML, Blockchain, Cybersecurity, Cloud, IoT\",\n          \"Seed funding and mentorship for student startups\",\n          \"Workshops on Oracle technologies\",\n          \"Hackathons and innovation challenges\",\n          \"Joint academic programs with international universities\",\n          \"Support for IPR and patent filings\",\n          \"Guest lectures and faculty development programs\"\n        ]\n      },\n      termsAndConditions: {\n        duration: \"Effective for [X] years; renewable by mutual agreement\",\n        responsibilities: {\n          snsCollege: [\n            \"Nominate qualified students\",\n            \"Provide infrastructure for placements and incubation\",\n            \"Monitor and report student performance\",\n            \"Support joint research and promote initiatives\"\n          ],\n          oracle: [\n            \"Offer internships and placements\",\n            \"Conduct recruitment and provide feedback\",\n            \"Mentor students and support startups\",\n            \"Provide access to Oracle tools and resources\"\n          ]\n        },\n        reporting: [\n          \"Quarterly or bi-annual progress reports\",\n          \"Annual joint review of MoU effectiveness\"\n        ],\n        legal: [\n          \"MoU is non-binding and based on intent\",\n          \"Specific agreements to be handled separately\",\n          \"Governed by laws of [Jurisdiction]\"\n        ],\n        ipr: [\n          \"Joint ownership of IP unless otherwise agreed\",\n          \"Separate project-specific agreements for IP rights\"\n        ],\n        confidentiality: [\n          \"Confidentiality to be maintained\",\n          \"NDA to be signed if required\"\n        ],\n        conflictResolution: \"Negotiation → Mediation or ADR if needed\",\n        amendment: \"Any changes must be in written mutual agreement\",\n        termination: \"Termination possible with [X] months’ notice\"\n      },\n      benefits: {\n        snsCollege: [\n          \"Enhanced academic reputation\",\n          \"Improved student employability\",\n          \"Faculty skill development\",\n          \"Access to Oracle's technology and experts\",\n          \"Opportunities for publication and patents\",\n          \"Startup and incubation support\"\n        ],\n        oracle: [\n          \"Access to skilled students and researchers\",\n          \"Enhanced visibility and CSR impact\",\n          \"Curriculum alignment with industry needs\",\n          \"Innovation access from academia\",\n          \"Collaborative R&D opportunities\"\n        ],\n        mutual: [\n          \"Shared knowledge and innovation\",\n          \"Research and publication growth\",\n          \"Skilled industry-ready workforce\",\n          \"Contribution to technology advancement\"\n        ]\n      }\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2700,
+        -2200
+      ],
+      "id": "cd7ee751-889b-46a3-b49b-5fc6ad9ef6c4",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.all().map((item) => item.json)[0].output;\nreturn [\n  {\n    json: {\n      title: \"Final MoU Draft\",\n      content: text || \"No content generated\",\n    },\n  },\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1660,
+        -2120
+      ],
+      "id": "492b4bb2-c9db-4834-87f0-e68071e73e85",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash-001",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2500,
+        -1920
+      ],
+      "id": "379e67ca-44f9-4e38-a650-5ba826965813",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "3wg4c4RXUr8K7PLi",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "1U3mkn_O9wzTFAWAFPYhtHj1WfBDhBhy5",
+        "title": "={{ $json.title }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -740,
+        -2120
+      ],
+      "id": "c31e964d-0677-4620-95ff-e9bea37947ff",
+      "name": "Google Docs",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "Uxdfs1lX6hRjAwZz",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $('Information Extractor').item.json.output.content }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        -520,
+        -2100
+      ],
+      "id": "e4ac9d60-854e-4ad3-8fc1-54d8375391a0",
+      "name": "Google Docs1",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "Uxdfs1lX6hRjAwZz",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "text": "={{ $json.output }}",
+        "schemaType": "fromJson",
+        "jsonSchemaExample": "{\n \"content\": \"\"\n}",
+        "options": {
+          "systemPromptTemplate": "You are an expert extraction algorithm.\nOnly extract relevant information from the text.\nIf you do not know the value of an attribute asked to extract, you may omit the attribute's value.\n\ni need full content\n\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+      "typeVersion": 1.2,
+      "position": [
+        -2060,
+        -2120
+      ],
+      "id": "e60a81e7-e481-4f86-83c1-0e52375a0cbe",
+      "name": "Information Extractor"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -2100,
+        -1920
+      ],
+      "id": "5249a20a-ba15-4286-a4d8-76f55a7f20af",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "3wg4c4RXUr8K7PLi",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -1400,
+        -1880
+      ],
+      "id": "e6d80b55-6cf3-4592-bc89-f646ad0dbae5",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "3wg4c4RXUr8K7PLi",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Review the legal document identified by the {{ $json.title }} and {{ $json.content }}  from a legal perspective, providing a comprehensive assessment based on your professional expertise as a lawyer from a reputable law firm. Ensure your evaluation addresses all critical aspects of the document, and clearly state any conditions under which you would approve the document.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -1400,
+        -2120
+      ],
+      "id": "41d47f8e-6da0-4e0c-997b-076aabf12e24",
+      "name": "LAW FIRM"
+    },
+    {
+      "parameters": {
+        "jsCode": "const text = $input.all().map((item) => item.json)[0].output;\nreturn [\n  {\n    json: {\n      title: \"Final MoU Draft\",\n      content: text || \"No content generated\",\n    },\n  },\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -960,
+        -2120
+      ],
+      "id": "5321f978-7ccc-419c-9011-029483b792a0",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "={{ $json.documentId }}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -280,
+        -2140
+      ],
+      "id": "197a305e-6251-43d2-b079-1b1f80481920",
+      "name": "Google Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "hxKEwgkEgwd8iUhf",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "husnaece17@gmail.com",
+        "subject": "MoU Document for Reviewing-Regd",
+        "emailType": "text",
+        "message": "I have attached the document of MoU Signing . Please find the attachment and acknowledge it",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          },
+          "replyTo": "husnaece17@gmail.com",
+          "replyToSenderOnly": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        -20,
+        -2140
+      ],
+      "id": "50f35268-296e-401a-aa84-75edc684c1bc",
+      "name": "Gmail",
+      "webhookId": "e97cb214-3fdd-4af7-a2bd-6b9c204ca7d2",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qu7I2Qp7xNc6bpcq",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "thread",
+        "operation": "get",
+        "threadId": "={{ $json.threadId }}",
+        "options": {
+          "returnOnlyMessages": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        240,
+        -2260
+      ],
+      "id": "eb94bf78-ccfa-4515-bdbf-90f65cf0d578",
+      "name": "Gmail1",
+      "webhookId": "e2766f57-dcb5-4e66-b3ee-fa557c17174c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qu7I2Qp7xNc6bpcq",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Analyze the snippet {{ $('Gmail').item.json.threadId }}    of the sender  give the status only as  approved or disapproved by analyzing the sentences, without any justifications or explanations.",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        460,
+        -2260
+      ],
+      "id": "4c83343d-1a72-4eda-bedb-3e1a90348779",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.0-flash",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        360,
+        -2020
+      ],
+      "id": "6fc43b6f-0706-4f4d-a5ba-e730142c9f03",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "3wg4c4RXUr8K7PLi",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "f1b053a9-9246-4a09-a523-941b248a419a",
+              "leftValue": "={{ $json.output }}",
+              "rightValue": "Approved",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        820,
+        -2360
+      ],
+      "id": "cf2281c5-88e5-4b78-9bc8-f83e0b0cdf1b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1PYSNwQ_FS_XtjRhZ9btQXfw0TLjLxQeYMVIH_t1fwrw",
+          "mode": "list",
+          "cachedResultName": "MoU Document Id",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PYSNwQ_FS_XtjRhZ9btQXfw0TLjLxQeYMVIH_t1fwrw/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PYSNwQ_FS_XtjRhZ9btQXfw0TLjLxQeYMVIH_t1fwrw/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $('Google Drive').item.json.documentId }}",
+            "Status": "={{ $json.output }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1160,
+        -2480
+      ],
+      "id": "dc17977e-241b-431a-896b-6013b31efd55",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "CwHoe8zNNUpHKPBB",
+          "name": "Google Sheets account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "sendTo": "husnaece17@gmail.com",
+        "subject": "Approval Required -Regarding",
+        "message": "I have send you the Mou Documents , Review and give status for approval for further processing and Signing Procedure  ",
+        "approvalOptions": {
+          "values": {
+            "approvalType": "double"
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1800,
+        -2300
+      ],
+      "id": "cfb4bde9-f6e0-43d4-87a3-f8238b839e4b",
+      "name": "Gmail2",
+      "webhookId": "9c90d504-a261-4ec7-8db8-b55e0429b89b",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "qu7I2Qp7xNc6bpcq",
+          "name": "Gmail account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Draft an outline for the Memorandum of Understanding (MoU) report focusing on the following key areas of collaboration {{ $json['MoU Type'] }} between {{ $json['Institution Name'] }} and {{ $json['Industry Name'] }} on {{ $json['Mou Signing Date'] }} Focusing in  1. Internship & Placement Support: Outline the framework for providing internships.Describe the career guidance and placement opportunities for students.      Specify the roles and responsibilities of each party involved.  2. Research Collaboration:      Define the scope of joint research projects.      Outline the process for joint publications and patent filings.      Identify the emerging technologies to focus on.  3. Entrepreneurship & Incubation:      Explain the support system for student startups.      Describe the incubator facilities and entrepreneurial mentoring programs.      Specify the selection criteria for startups.  4. Training & Skill Development:      Outline the handson training programs.Describe the certification processes and Faculty Development Programs (FDPs). Identify the technical competencies to be enhanced.  5. Hackathon / Innovation Partnership: Describe the joint hackathons, ideathons, and innovation challenges.      Outline the evaluation and reward processes for participants.      Specify the roles of each party in organizing these events.  6. International Collaboration:      Outline the framework for global student and faculty exchange programs. Describe the joint academic programs and their implementation plans. Identify the participating institutions and their roles.  7. IPR & Patent Filing Support:  Explain the process for identifying and mentoring student and faculty innovations.      Outline the joint patent filing process and the roles of each party.  Specify the criteria for selecting innovations for patent filing.  8. Faculty Development / Guest Lectures:  Describe the regular industry interaction programs for faculty and students.      Outline the expertled sessions and their implementation plans. Specify the expected outcomes from these interactions.  Ensure the outline is structured, clear, and concise, providing a comprehensive framework for the MoU report between Institution name ",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -3480,
+        -2160
+      ],
+      "id": "8111ff74-f334-435c-a441-7c990086d616",
+      "name": "Format Extraction"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are an expert in drafting institutional agreements and designing structured collaboration workflows.\n\nDevelop a **comprehensive workflow structure** for the following topic:\n> {{ $json.text }}\n\nYour output should be formal, detailed, and ready for inclusion in a Memorandum of Understanding (MoU) or strategic partnership document.\n\nPlease include the following sections:\n\n1. Key Points \n   Clearly outline the main goals, objectives, and scope of the workflow.  \n   Identify stakeholders and their roles.  \n   List specific tasks or initiatives under this partnership.\n\n2. Terms and Conditions\n   Define the rules, responsibilities, and deliverables for each party.  \n   Include duration, reporting requirements, legal considerations, IP rights, and confidentiality.  \n   Mention how conflicts will be resolved and how amendments can be made.\n\n3. Benefits of Partnership  \n   Highlight mutual benefits for each party (institutional, industrial, academic, etc.).  \n   Include opportunities for innovation, shared resources, knowledge exchange, or skill development.\n\nEnsure your response is:  \nLogically structured with proper sub-headings  \nSuitable for professional and legal review  \nEasily transformable into MoU content\n\nUse the data provided in `{{ $json.text }}` as the core context for this workflow structure.\n",
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -3100,
+        -2120
+      ],
+      "id": "4cdeeb3f-bdfc-42c7-b7f5-178ef0993d6d",
+      "name": "Basic Format"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Prepare a Memorandum of Understanding (MoU) on {{ $json.date }} between \n\n{{ $json.keyPoints.stakeholders.snsCollege }}, Coimbatore, \n\nAND\n\n{{ $json.keyPoints.stakeholders.oracle }}.\n\n\nClearly outline the objectives, goals, and scope of the agreement as specified in {{ $json.keyPoints.objectives[0] }}, {{ $json.keyPoints.goals }}, and {{ $json.keyPoints.scope }}, respectively. Ensure concise language is used to cover all necessary aspects comprehensively. Provide an in-depth description of the scope, addressing all relevant points as outlined in {{ $json.keyPoints.scope }}. Summarize and detail the terms and conditions as specified in {{ $json.termsAndConditions }}, focusing on: - Duration: Clearly state the duration as outlined in {{ $json.termsAndConditions.duration }}. - Legal Aspects: Address the legal aspects as specified in {{ $json.termsAndConditions.legal }}. - Intellectual Property Rights: Cover the intellectual property rights as outlined in {{ $json.termsAndConditions.ipr }}. Discuss the benefits as detailed in {{ $json.benefits }}, ensuring a comprehensive exploration of the advantages. Include comprehensive sections on the following key areas, each approximately 1000 words and comprising a minimum of 20 points in paragraph form, maintaining a professional tone throughout: - Responsibilities of {{ $json.keyPoints.stakeholders.snsCollege }} as outlined in {{ $json.termsAndConditions.responsibilities.snsCollege }}. - Responsibilities of {{ $json.keyPoints.stakeholders.oracle }} as outlined in {{ $json.termsAndConditions.responsibilities.oracle }}. Ensure the MoU is structured logically, with clear headings and concise language, and that all necessary aspects are addressed comprehensively.\n\n\n\n{{ $json.date }}\n\n{{ $json.keyPoints.stakeholders.snsCollege }}\n\n\n\n{{ $json.keyPoints.stakeholders.oracle }}\n\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        -2460,
+        -2140
+      ],
+      "id": "8e2cd6b3-81cc-461b-9452-2118402e7556",
+      "name": "Draft"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Format Extraction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Format Extraction",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Basic Format",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "LAW FIRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Draft",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs": {
+      "main": [
+        [
+          {
+            "node": "Google Docs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Information Extractor": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Docs1": {
+      "main": [
+        [
+          {
+            "node": "Google Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LAW FIRM",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LAW FIRM": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Google Docs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Drive": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail": {
+      "main": [
+        [
+          {
+            "node": "Gmail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Gmail2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Extraction": {
+      "main": [
+        [
+          {
+            "node": "Basic Format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic Format": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Draft": {
+      "main": [
+        [
+          {
+            "node": "Information Extractor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f51a0d39-3c27-4f52-a945-84bae65bb522",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "de3889b5f600d55fed291239e232658e3caebcb04b97cb93827db0cccd5495d0"
+  },
+  "id": "cSlDrARN1qPbqvji",
+  "tags": []
+}

@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # ---------- GEMINI API CONFIG ----------
-genai.configure(api_key="AIzaSyCSP3Lu8dq6x4cBznO3ANqgiWIQhjwLdj4")
+genai.configure(api_key="AIzaSyCSP3")
 gemini_model = genai.GenerativeModel("gemini-2.0-flash")
 
 # ---------- PAGE CONFIG ----------
@@ -217,3 +217,4 @@ st.markdown(f"**👩‍🍳 Instructions**: {recipe['instructions']}")
 
 st.markdown("---")
 st.markdown("✨ Try [https://hix.ai/chat](https://hix.ai/chat) — your AI kitchen companion!")
+

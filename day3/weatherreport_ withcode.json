@@ -60,7 +60,7 @@
     },
     {
       "parameters": {
-        "sendTo": "hajachem@gmail.com",
+        "sendTo": "aaaa@.com",
         "subject": "Weather Report for Today",
         "emailType": "text",
         "message": "={{ $json.message }}",
@@ -79,7 +79,7 @@
       "webhookId": "9041d76b-1880-40bb-83c4-b3c0bece947b",
       "credentials": {
         "gmailOAuth2": {
-          "id": "qu7I2Qp7xNc6bpcq",
+          "id": "qu7I2",
           "name": "Gmail account 2"
         }
       }
@@ -139,7 +139,7 @@
   "versionId": "f7c4237a-2d67-4899-9ae8-c0013db9c636",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "de3889b5f600d55fed291239e232658e3caebcb04b97cb93827db0cccd5495d0"
+    "instanceId": "de3889b5f600d55fed291239e232658e3caebcb04b97cb93827db0ccc"
   },
   "id": "u3EBZ2DFX5D27NH3",
   "tags": []

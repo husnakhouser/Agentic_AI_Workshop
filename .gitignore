@@ -1,0 +1,9 @@
+__pycache__/
+.ipynb_checkpoints/
+.streamlit/secrets.toml
+*.log
+.env
+# Do not commit raw research PDFs unless you have permission
+data/
+# Add generated index only if it is small enough and intended for deployment
+# artifacts/
